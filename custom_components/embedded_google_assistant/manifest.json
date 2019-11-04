@@ -1,0 +1,16 @@
+{
+  "domain": "embedded_google_assistant",
+  "name": "Embedded Google Assistent",
+  "config_flow": true,
+  "dependencies": [
+    "http",
+    "media_player"
+  ],
+  "requirements": [
+    "google-assistant-grpc==0.2.1",
+    "google-auth-oauthlib==0.4.1"
+  ],
+  "codeowners": [
+    "@drakulix"
+  ]
+}

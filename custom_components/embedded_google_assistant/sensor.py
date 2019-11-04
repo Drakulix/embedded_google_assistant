@@ -1,0 +1,64 @@
+"""Platform for sensor integration."""
+from homeassistant.helpers.entity import Entity
+import homeassistant.util.dt as dt_util
+from homeassistant.const import DEVICE_CLASS_TIMESTAMP
+
+from .const import DOMAIN, DATA_ASSISTANT, EVENT_NAME
+
+async def async_setup_entry(hass, entry, add_entities):
+    """Set up the sensor platform."""
+    assistant = hass.data[DOMAIN][DATA_ASSISTANT]
+    add_entities([AssistantSensor(hass, assistant, entry.title)])
+
+class AssistantSensor(Entity):
+    """Representation of a Sensor."""
+
+    def __init__(self, hass, assistant, assistant_name):
+        """Initialize the sensor."""
+        self._state = None
+        self._attributes = None
+        self._assistant = assistant
+        self._id = assistant_name
+
+        # Listener to handle google assistant events
+        async def handle_event(event):
+            if event.data[EVENT_NAME] == self._id:
+                data = dict(event.data)
+                del data[EVENT_NAME]
+                self._attributes = data
+                self._state = dt_util.utcnow()
+                self.async_schedule_update_ha_state()
+
+        # Listen for when example_component_my_cool_event is fired
+        self._listener = hass.bus.async_listen('%s_done' % DOMAIN, handle_event)
+
+    @property
+    def device_state_attributes(self):
+        return self._attributes
+
+    @property
+    def available(self):
+        return self._state is not None
+
+    @property
+    def device_class(self):
+        """Return the device class."""
+        return DEVICE_CLASS_TIMESTAMP
+
+    @property
+    def should_poll(self):
+        return False
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        return 'Google Assistant (%s)' % self._id
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        return self._state
+
+    @property
+    def unique_id(self):
+        return self._id

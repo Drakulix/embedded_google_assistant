@@ -1,0 +1,30 @@
+{
+    "config": {
+        "title": "Embedded Google Assistant",
+        "step": {
+            "user": {
+                "title": "Benötigte Daten",
+                "description": "Bitte geben Sie ihre Daten von der Google API Console oder ihrer client_secrets*.json ein",
+                "data": {
+                    "assistant_name": "Eindeutiger Name dieses Assistenten (bspw. Nutzername)",
+                    "client_id": "Client ID",
+                    "client_secret": "Client Secret",
+                    "project_id": "Project ID"
+                }
+            },
+            "auth": {
+                "title": "Consent",
+                "description": "Sie müssen sich nun [in ihren Google Account einloggen]({url}).\nBitte geben Sie den Token ein, den Sie danach erhalten.",
+                "data": {
+                    "oauth_code": "Token"
+                }
+            }
+        },
+        "error": {
+            "not_unique": "Ein Assistent mit diesem Namen existiert bereits",
+            "invalid_token": "Ungültiger Token, bitte versuchen Sie es erneut",
+            "register_device_model": "Fehler beim Registrieren des 'device model'",
+            "register_device": "Fehler beim Registrieren des 'device'"
+        }
+    }
+}

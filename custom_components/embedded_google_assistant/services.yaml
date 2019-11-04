@@ -1,0 +1,62 @@
+record_stream:
+  description: Call google-assistant with audio stream
+  fields:
+    base_url:
+      description: A base URL to use instead of the one set in the http component.
+    device_id:
+      description: Device ID of the google assistant. Different device ids cause new devices to pop up in your google home app, that can be assigned to different rooms.
+      example: '5db4d124-fbd9-11e9-8f0b-362b9e155667'
+    language:
+      description: Language code as supported by the google assistant. (See https://developers.google.com/assistant/sdk/reference/rpc/languages)
+      example: 'en-US'
+    file_path:
+      description: Path to the audio stream file
+      example: "/run/user/1000/pulse/simple"
+    html_out:
+      description: Receives html answer to display. May alter the audio output and supress text output
+      example: 'true'
+    continue:
+      description: If this is a follow up to an earlier conversation or should be treated as a new invokation
+      example: 'false'
+
+record_file:
+  description: Call google-assistant with audio file
+  fields:
+    base_url:
+      description: A base URL to use instead of the one set in the http component.
+    device_id:
+      description: Device ID of the google assistant. Different device ids cause new devices to pop up in your google home app, that can be assigned to different rooms.
+      example: '5db4d124-fbd9-11e9-8f0b-362b9e155667'
+    language:
+      description: Language code as supported by the google assistant. (See https://developers.google.com/assistant/sdk/reference/rpc/languages)
+      example: 'en-US'
+    file_path:
+      description: Path to the audio file
+      example: "/home/ha/request.wav"
+    html_out:
+      description: Receives html answer to display. May alter the audio output and supress text output
+      example: 'true'
+    continue:
+      description: If this is a follow up to an earlier conversation or should be treated as a new invokation
+      example: 'false'
+
+text:
+  description: Call google-assistant with text request
+  fields:
+    base_url:
+      description: A base URL to use instead of the one set in the http component.
+    device_id:
+      description: Device ID of the google assistant. Different device ids cause new devices to pop up in your google home app, that can be assigned to different rooms.
+      example: '5db4d124-fbd9-11e9-8f0b-362b9e155667'
+    language:
+      description: Language code as supported by the google assistant. (See https://developers.google.com/assistant/sdk/reference/rpc/languages)
+      example: 'en-US'
+    message:
+      description: Message for the google assistant
+      example: "How is the weather in Florida?"
+    html_out:
+      description: Receives html answer to display. May alter the audio output and supress text output
+      example: 'true'
+    continue:
+      description: If this is a follow up to an earlier conversation or should be treated as a new invokation
+      example: 'false'
