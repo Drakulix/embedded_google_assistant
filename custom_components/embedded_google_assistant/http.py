@@ -45,7 +45,7 @@ class EmbeddedAssistantRespAudioView(HomeAssistantView):
         """Start a get request."""
         try:
             data = self.assistant.get_resp(resp_id)['audio_data']
-            return web.Response(body=data, content_type='audio/mpeg')
+            return web.Response(body=data)
         except (KeyError, TypeError):
             return web.Response(status=404)
 
