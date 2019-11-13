@@ -20,6 +20,7 @@ import time
 import uuid
 import json
 import mutagen
+import io
 
 from .const import DOMAIN, ASSISTANT_API_ENDPOINT, DEFAULT_LANG, DATA_CREDENTIALS, DATA_DEVICE, DATA_PROJECT_ID
 from .device_helper import get_creds, get_devices, register_device
