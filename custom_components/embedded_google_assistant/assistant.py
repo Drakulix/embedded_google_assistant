@@ -198,7 +198,7 @@ class Assistant(object):
             '_timestamp': time.time(),
             'text_data': text_data,
             'audio_data': write_tags(resp_id+'.mp3', audio_data, 'Google Assistant',
-                message if message else text_recognition_data, language),
+                message if message else text_recognition_data, lang),
             'html_data': html_data,
         }
 
