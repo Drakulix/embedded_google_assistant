@@ -19,6 +19,7 @@ import logging
 import time
 import uuid
 import json
+import mutagen
 
 from .const import DOMAIN, ASSISTANT_API_ENDPOINT, DEFAULT_LANG, DATA_CREDENTIALS, DATA_DEVICE, DATA_PROJECT_ID
 from .device_helper import get_creds, get_devices, register_device
@@ -169,10 +170,35 @@ class Assistant(object):
         
         # save result
 
+        def write_tags(filename, data, provider, message, language):
+            """Write ID3 tags to file.
+            Async friendly.
+            """
+
+            data_bytes = io.BytesIO(data)
+            data_bytes.name = filename
+            data_bytes.seek(0)
+
+            album = provider
+            artist = language
+
+            try:
+                tts_file = mutagen.File(data_bytes, easy=True)
+                if tts_file is not None:
+                    tts_file["artist"] = artist
+                    tts_file["album"] = album
+                    tts_file["title"] = message
+                    tts_file.save(data_bytes)
+            except mutagen.MutagenError as err:
+                _LOGGER.error("ID3 tag error: %s", err)
+
+            return data_bytes.getvalue()
+
         self.responses[resp_id] = {
             '_timestamp': time.time(),
             'text_data': text_data,
-            'audio_data': audio_data,
+            'audio_data': write_tags(resp_id+'.mp3', audio_data, 'Google Assistant',
+                message if message else text_recognition_data, language),
             'html_data': html_data,
         }
 
