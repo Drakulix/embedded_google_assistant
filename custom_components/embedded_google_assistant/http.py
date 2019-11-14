@@ -34,7 +34,7 @@ class EmbeddedAssistantRespAudioView(HomeAssistantView):
     """Embedded Assistant view to serve a response audio."""
 
     requires_auth = False
-    url = "/api/embedded_assistant/response/{resp_id}/audio"
+    url = "/api/embedded_assistant/response/{resp_id}.mp3"
     name = "api:embedded_assistant:response:audio"
 
     def __init__(self, assistant):
