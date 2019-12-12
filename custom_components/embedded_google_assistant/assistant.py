@@ -45,7 +45,7 @@ class Assistant(object):
         
         return self.responses.get(resp_id)
 
-    def assist(self, hass, assistant_id, device_id=None, lang=DEFAULT_LANG, html_out=False, message=None, audio_in=None, is_new_conversation=True, silence):
+    def assist(self, hass, assistant_id, device_id=None, lang=DEFAULT_LANG, html_out=False, message=None, audio_in=None, is_new_conversation=True, silence=0):
         # setup state
 
         credentials = get_creds(hass, assistant_id)
