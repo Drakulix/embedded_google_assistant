@@ -46,7 +46,7 @@ SCHEMA_SERVICE_TEXT = vol.Schema(
         vol.Required(ATTR_MESSAGE): cv.string,
         vol.Optional(ATTR_HTML_OUT, default=False): cv.boolean,
         vol.Optional(ATTR_CONTINUATION, default=False): cv.boolean,
-        vol.Optional(ATTR_SILENCE, default=0): cv.number,
+        vol.Optional(ATTR_SILENCE, default=0): cv.positive_int,
     }
 )
 
@@ -58,7 +58,7 @@ SCHEMA_SERVICE_RECORD = vol.Schema(
         vol.Required(ATTR_PATH): cv.string,
         vol.Optional(ATTR_HTML_OUT, default=False): cv.boolean,
         vol.Optional(ATTR_CONTINUATION, default=False): cv.boolean,
-        vol.Optional(ATTR_SILENCE, default=0): cv.number,
+        vol.Optional(ATTR_SILENCE, default=0): cv.positive_int,
     }
 )
 
