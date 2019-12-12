@@ -32,6 +32,7 @@ def register_device_model(
             "device_description": desc, 
         },
         "device_type": icon,
+        "traits": ["action.devices.traits.Timer"]
     }
 
     r = session.post(device_model_base_url, data=json.dumps(model_payload))
