@@ -98,7 +98,7 @@ class Assistant(object):
                 'audio_out_config': AudioOutConfig(
                     encoding='LINEAR16',
                     sample_rate_hertz=24000,
-                    volume_percentage=50,
+                    volume_percentage=100,
                 ),
                 'dialog_state_in': DialogStateIn(
                     language_code=lang,
