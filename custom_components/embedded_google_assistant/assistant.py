@@ -183,7 +183,7 @@ class Assistant(object):
             album = provider
             artist = language
 
-            audio = AudioSegment.from_file(data_bytes, format='raw', sample_width=2, channels=2, frame_rate=24000)
+            audio = AudioSegment.from_file(data_bytes, format='raw', sample_width=2, channels=1, frame_rate=24000)
             if silence > 0:
                 silence = AudioSegment.silence(duration=1000 * silence)
                 audio = silence + audio
@@ -199,7 +199,7 @@ class Assistant(object):
         self.responses[resp_id] = {
             '_timestamp': time.time(),
             'text_data': text_data,
-            'audio_data': write_tags(resp_id+'.ogg', audio_data, 'Google Assistant',
+            'audio_data': write_tags(resp_id+'.mp3', audio_data, 'Google Assistant',
                 message if message else text_recognition_data, lang, silence),
             'html_data': html_data,
         }

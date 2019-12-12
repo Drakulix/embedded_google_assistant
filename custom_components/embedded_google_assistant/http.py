@@ -34,7 +34,7 @@ class EmbeddedAssistantRespAudioView(HomeAssistantView):
     """Embedded Assistant view to serve a response audio."""
 
     requires_auth = False
-    url = "/api/embedded_assistant/response/{resp_id}.ogg"
+    url = "/api/embedded_assistant/response/{resp_id}.mp3"
     name = "api:embedded_assistant:response:audio"
 
     def __init__(self, assistant):
@@ -46,7 +46,7 @@ class EmbeddedAssistantRespAudioView(HomeAssistantView):
         try:
             data = self.assistant.get_resp(resp_id)['audio_data']
 
-            return web.Response(body=data, content_type='audio/ogg')
+            return web.Response(body=data, content_type='audio/mpeg')
         except (KeyError, TypeError):
             return web.Response(status=404)
 

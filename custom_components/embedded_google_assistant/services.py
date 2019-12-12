@@ -121,7 +121,7 @@ def _handle_input(hass, name, call, audio_in=None, message=None):
                 EVENT_NAME: name,
                 EVENT_TEXT_RECOGNITION: resp.get('text_recognition_data'),
                 EVENT_TEXT: resp.get('text_data'),
-                EVENT_AUDIO: url + '.ogg',
+                EVENT_AUDIO: url + '.mp3',
                 EVENT_DEVICE: resp.get('device_data'),
                 EVENT_DEVICE_ID: resp.get('device_id'),
                 EVENT_LANGUAGE: resp.get('language'),
