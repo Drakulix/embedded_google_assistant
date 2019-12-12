@@ -19,7 +19,6 @@ import logging
 import time
 import uuid
 import json
-import mutagen
 from pydub import AudioSegment
 import io
 
@@ -97,9 +96,9 @@ class Assistant(object):
         def iter_requests():
             conf = {
                 'audio_out_config': AudioOutConfig(
-                    encoding='OPUS_IN_OGG',
+                    encoding='LINEAR16',
                     sample_rate_hertz=24000,
-                    volume_percentage=100,
+                    volume_percentage=50,
                 ),
                 'dialog_state_in': DialogStateIn(
                     language_code=lang,
@@ -184,21 +183,16 @@ class Assistant(object):
             album = provider
             artist = language
 
-            try:
-                tts_file = mutagen.File(data_bytes, easy=True)
-                if tts_file is not None:
-                    tts_file["artist"] = artist
-                    tts_file["album"] = album
-                    tts_file["title"] = message
-                    tts_file.save(data_bytes)
-            except mutagen.MutagenError as err:
-                _LOGGER.error("ID3 tag error: %s", err)
-
+            audio = AudioSegment.from_file(data_bytes, format='raw', sample_width=2, channels=2, frame_rate=24000)
             if silence > 0:
-                audio = AudioSegment.from_file(data_bytes, format='ogg')
                 silence = AudioSegment.silence(duration=1000 * silence)
-                final = silence + audio
-                data_bytes = final.export(io.BytesIO())
+                audio = silence + audio
+            
+            data_bytes = audio.export(io.BytesIO(), format="mp3", tags={
+                "artist": artist,
+                "album": album,
+                "title": message,
+            }, bitrate="192k")
 
             return data_bytes.getvalue()
 
