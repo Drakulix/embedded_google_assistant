@@ -97,7 +97,7 @@ class Assistant(object):
         def iter_requests():
             conf = {
                 'audio_out_config': AudioOutConfig(
-                    encoding='MP3',
+                    encoding='OPUS_IN_OGG',
                     sample_rate_hertz=24000,
                     volume_percentage=100,
                 ),
@@ -195,7 +195,7 @@ class Assistant(object):
                 _LOGGER.error("ID3 tag error: %s", err)
 
             if silence > 0:
-                audio = AudioSegment.from_file(data_bytes, format='mp3')
+                audio = AudioSegment.from_file(data_bytes, format='ogg')
                 silence = AudioSegment.silence(duration=1000 * silence)
                 final = silence + audio
                 data_bytes = final.export(io.BytesIO())
@@ -205,7 +205,7 @@ class Assistant(object):
         self.responses[resp_id] = {
             '_timestamp': time.time(),
             'text_data': text_data,
-            'audio_data': write_tags(resp_id+'.mp3', audio_data, 'Google Assistant',
+            'audio_data': write_tags(resp_id+'.ogg', audio_data, 'Google Assistant',
                 message if message else text_recognition_data, lang, silence),
             'html_data': html_data,
         }
