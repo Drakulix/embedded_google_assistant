@@ -19,6 +19,7 @@ ATTR_MESSAGE = 'message'
 ATTR_PATH = 'file_path'
 ATTR_HTML_OUT = 'html_out'
 ATTR_CONTINUATION = 'continue'
+ATTR_SILENCE = 'silence'
 
 EVENT_NAME = 'assistant_name'
 EVENT_TEXT_RECOGNITION = 'text_recognition'

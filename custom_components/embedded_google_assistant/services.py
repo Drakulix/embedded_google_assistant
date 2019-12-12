@@ -23,6 +23,7 @@ from .const import (
     ATTR_MESSAGE,
     ATTR_HTML_OUT,
     ATTR_PATH,
+    ATTR_SILENCE,
     DATA_ASSISTANT,
     DATA_CREDENTIALS,
     EVENT_NAME,
@@ -45,6 +46,7 @@ SCHEMA_SERVICE_TEXT = vol.Schema(
         vol.Required(ATTR_MESSAGE): cv.string,
         vol.Optional(ATTR_HTML_OUT, default=False): cv.boolean,
         vol.Optional(ATTR_CONTINUATION, default=False): cv.boolean,
+        vol.Optional(ATTR_SILENCE, default=0): cv.number,
     }
 )
 
@@ -56,6 +58,7 @@ SCHEMA_SERVICE_RECORD = vol.Schema(
         vol.Required(ATTR_PATH): cv.string,
         vol.Optional(ATTR_HTML_OUT, default=False): cv.boolean,
         vol.Optional(ATTR_CONTINUATION, default=False): cv.boolean,
+        vol.Optional(ATTR_SILENCE, default=0): cv.number,
     }
 )
 
@@ -94,6 +97,7 @@ def handle_text(hass, name, call):
 def _handle_input(hass, name, call, audio_in=None, message=None):
     assistant = hass.data[DOMAIN][DATA_ASSISTANT]
     base_url = call.data.get(ATTR_BASE_URL, hass.config.api.base_url)
+    silence = call.data[ATTR_SILENCE]
 
     for resp in assistant.assist(
         hass, name,
@@ -102,7 +106,8 @@ def _handle_input(hass, name, call, audio_in=None, message=None):
         audio_in=audio_in,
         message=message,
         html_out=call.data.get(ATTR_HTML_OUT),
-        is_new_conversation=not call.data.get(ATTR_CONTINUATION, False)
+        is_new_conversation=not call.data.get(ATTR_CONTINUATION, False),
+        silence=silence,
     ):
         if not resp['done']:
             hass.bus.fire('%s_text_recognition' % DOMAIN, {

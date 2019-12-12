@@ -18,6 +18,9 @@ record_stream:
     continue:
       description: If this is a follow up to an earlier conversation or should be treated as a new invokation
       example: 'false'
+    silence:
+      description: add silent audio (giving in seconds) in front of the audio data, in case the speakers need to wind up
+      example: 2
 
 record_file:
   description: Call google-assistant with audio file
@@ -39,6 +42,9 @@ record_file:
     continue:
       description: If this is a follow up to an earlier conversation or should be treated as a new invokation
       example: 'false'
+    silence:
+      description: Add silence (in seconds) in front of the audio data, in case the speakers need to wind up
+      example: 2
 
 text:
   description: Call google-assistant with text request
@@ -60,3 +66,6 @@ text:
     continue:
       description: If this is a follow up to an earlier conversation or should be treated as a new invokation
       example: 'false'
+    silence:
+      description: Add silence (in seconds) in front of the audio data, in case the speakers need to wind up
+      example: 2

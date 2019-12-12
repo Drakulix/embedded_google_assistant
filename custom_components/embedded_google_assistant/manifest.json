@@ -9,7 +9,8 @@
   "requirements": [
     "google-assistant-grpc==0.2.1",
     "google-auth-oauthlib==0.4.1",
-    "mutagen>=1.43.0"
+    "mutagen>=1.43.0",
+    "pydub>=0.23.1"
   ],
   "codeowners": [
     "@drakulix"

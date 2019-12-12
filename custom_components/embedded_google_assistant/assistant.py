@@ -20,6 +20,7 @@ import time
 import uuid
 import json
 import mutagen
+from pydub import AudioSegment
 import io
 
 from .const import DOMAIN, ASSISTANT_API_ENDPOINT, DEFAULT_LANG, DATA_CREDENTIALS, DATA_DEVICE, DATA_PROJECT_ID
@@ -44,7 +45,7 @@ class Assistant(object):
         
         return self.responses.get(resp_id)
 
-    def assist(self, hass, assistant_id, device_id=None, lang=DEFAULT_LANG, html_out=False, message=None, audio_in=None, is_new_conversation=True):
+    def assist(self, hass, assistant_id, device_id=None, lang=DEFAULT_LANG, html_out=False, message=None, audio_in=None, is_new_conversation=True, silence):
         # setup state
 
         credentials = get_creds(hass, assistant_id)
@@ -192,6 +193,12 @@ class Assistant(object):
                     tts_file.save(data_bytes)
             except mutagen.MutagenError as err:
                 _LOGGER.error("ID3 tag error: %s", err)
+
+            if silence > 0:
+                audio = AudioSegment.from_file(data_bytes, format='mp3')
+                silence = AudioSegment.silence(duration=1000 * silence)
+                final = silence + audio
+                data_bytes = final.export(io.BytesIO())
 
             return data_bytes.getvalue()
 
