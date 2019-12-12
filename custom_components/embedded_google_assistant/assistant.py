@@ -185,7 +185,7 @@ class Assistant(object):
 
             audio = AudioSegment.from_file(data_bytes, format='raw', sample_width=2, channels=1, frame_rate=24000)
             if silence > 0:
-                silence = AudioSegment.silence(duration=1000 * silence)
+                silence = AudioSegment.silent(duration=1000 * silence)
                 audio = silence + audio
             
             data_bytes = audio.export(io.BytesIO(), format="mp3", tags={
