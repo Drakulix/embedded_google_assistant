@@ -172,7 +172,7 @@ class Assistant(object):
         
         # save result
 
-        def write_tags(filename, data, provider, message, language):
+        def write_tags(filename, data, provider, message, language, silence):
             """Write ID3 tags to file.
             Async friendly.
             """
@@ -206,7 +206,7 @@ class Assistant(object):
             '_timestamp': time.time(),
             'text_data': text_data,
             'audio_data': write_tags(resp_id+'.mp3', audio_data, 'Google Assistant',
-                message if message else text_recognition_data, lang),
+                message if message else text_recognition_data, lang, silence),
             'html_data': html_data,
         }
 
