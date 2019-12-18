@@ -9,6 +9,7 @@ from homeassistant.components.media_player.const import DOMAIN as DOMAIN_MP
 from homeassistant.const import ATTR_ENTITY_ID, ENTITY_MATCH_ALL, CONF_PLATFORM
 from homeassistant.helpers.event import track_state_change
 import homeassistant.helpers.config_validation as cv
+import homeassistant.util.dt as dt_util
 
 import voluptuous as vol
 from google.auth.transport.requests import Request
@@ -99,6 +100,12 @@ def _handle_input(hass, name, call, audio_in=None, message=None):
     base_url = call.data.get(ATTR_BASE_URL, hass.config.api.base_url)
     silence = call.data[ATTR_SILENCE]
 
+    hass.bus.fire('%s_start' % DOMAIN, {
+        EVENT_NAME: name,
+        EVENT_DEVICE_ID: call.data.get(ATTR_DEVICE_ID),
+        EVENT_LANGUAGE: call.data.get(ATTR_LANG),
+    })
+
     for resp in assistant.assist(
         hass, name,
         device_id=call.data.get(ATTR_DEVICE_ID),
@@ -125,7 +132,8 @@ def _handle_input(hass, name, call, audio_in=None, message=None):
                 EVENT_DEVICE: resp.get('device_data'),
                 EVENT_DEVICE_ID: resp.get('device_id'),
                 EVENT_LANGUAGE: resp.get('language'),
-                EVENT_CONTINUATION: resp.get('should_continue')
+                EVENT_CONTINUATION: resp.get('should_continue'),
+                EVENT_TIME: dt_util.utcnow(),
             }
             if call.data.get(ATTR_HTML_OUT):
                 event[EVENT_HTML] = url + '/html'

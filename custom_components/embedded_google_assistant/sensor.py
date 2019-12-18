@@ -1,6 +1,5 @@
 """Platform for sensor integration."""
 from homeassistant.helpers.entity import Entity
-import homeassistant.util.dt as dt_util
 from homeassistant.const import DEVICE_CLASS_TIMESTAMP
 
 from .const import DOMAIN, DATA_ASSISTANT, EVENT_NAME
@@ -21,16 +20,17 @@ class AssistantSensor(Entity):
         self._id = assistant_name
 
         # Listener to handle google assistant events
-        async def handle_event(event):
+        async def handle_event(name, event):
             if event.data[EVENT_NAME] == self._id:
                 data = dict(event.data)
                 del data[EVENT_NAME]
                 self._attributes = data
-                self._state = dt_util.utcnow()
+                self._state = name
                 self.async_schedule_update_ha_state()
 
         # Listen for when example_component_my_cool_event is fired
-        self._listener = hass.bus.async_listen('%s_done' % DOMAIN, handle_event)
+        self._listener = hass.bus.async_listen('%s_done' % DOMAIN, lambda x: handle_event('done', x))
+        self._listener = hass.bus.async_listen('%s_starting' % DOMAIN, lambda x: handle_event('running', x))
 
     @property
     def device_state_attributes(self):

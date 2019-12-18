@@ -30,6 +30,7 @@ EVENT_DEVICE = 'device_data'
 EVENT_DEVICE_ID = 'device_id'
 EVENT_LANGUAGE = 'language'
 EVENT_CONTINUATION = 'should_continue'
+EVENT_TIME = 'response_time'
 
 AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
 TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
