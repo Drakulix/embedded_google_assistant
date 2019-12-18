@@ -36,6 +36,7 @@ from .const import (
     EVENT_DEVICE_ID,
     EVENT_CONTINUATION,
     EVENT_LANGUAGE,
+    EVENT_TIME,
 )
 from .stream import SocketSource, WaveSource
 
