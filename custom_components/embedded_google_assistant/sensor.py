@@ -19,6 +19,12 @@ class AssistantSensor(Entity):
         self._assistant = assistant
         self._id = assistant_name
 
+        async def handle_event_start(event):
+            await handle_event('running', event)
+
+        async def handle_event_done(event):
+            await handle_event('done', event)
+
         # Listener to handle google assistant events
         async def handle_event(name, event):
             if event.data[EVENT_NAME] == self._id:
@@ -29,8 +35,8 @@ class AssistantSensor(Entity):
                 self.async_schedule_update_ha_state()
 
         # Listen for when example_component_my_cool_event is fired
-        self._listener = hass.bus.async_listen('%s_done' % DOMAIN, lambda x: handle_event('done', x))
-        self._listener = hass.bus.async_listen('%s_starting' % DOMAIN, lambda x: handle_event('running', x))
+        self._listener = hass.bus.async_listen('%s_done' % DOMAIN, handle_event_done)
+        self._listener = hass.bus.async_listen('%s_starting' % DOMAIN, handle_event_start)
 
     @property
     def device_state_attributes(self):
@@ -39,11 +45,6 @@ class AssistantSensor(Entity):
     @property
     def available(self):
         return self._state is not None
-
-    @property
-    def device_class(self):
-        """Return the device class."""
-        return DEVICE_CLASS_TIMESTAMP
 
     @property
     def should_poll(self):
